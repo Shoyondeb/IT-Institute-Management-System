@@ -15,11 +15,13 @@ class Enrollment extends Model
         'mobile_number',
         'transaction_id',
         'status',
-        'admin_notes'
+        'admin_notes',
+        'notification'
     ];
 
     protected $casts = [
         'status' => 'string',
+        'notification' => 'boolean',
     ];
 
     public function user(): BelongsTo

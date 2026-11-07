@@ -66,6 +66,21 @@
                         </span>
                     </Link>
 
+                       <!-- Users Link -->
+                    <Link
+                        :href="route('admin.users.index')"
+                        :class="[
+                            'group flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                            route().current('admin.users.*') ? 'bg-blue-800 text-white' : 'text-blue-100 hover:bg-blue-800/50 hover:text-white'
+                        ]"
+                    >
+                        <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                        Users
+                    </Link>
+
+
                     <!-- Enrollments -->
                     <Link
                         :href="route('admin.enrollments.index')"
@@ -83,6 +98,17 @@
                             />
                         </svg>
                         Enrollments
+                        <!-- Notification badge - ALWAYS visible when notificationCount > 0 -->
+                        <span
+                            v-if="notiCount > 0"
+                            class="ml-auto flex items-center space-x-1 rounded-full bg-red-500 px-2.5 py-0.5 text-xs font-bold text-white shadow-lg shadow-red-500/50"
+                        >
+                            <span class="relative flex h-2 w-2">
+                                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75"></span>
+                                <span class="relative inline-flex h-2 w-2 rounded-full bg-white"></span>
+                            </span>
+                            <span>{{ notiCount }}</span>
+                        </span>
                     </Link>
 
                     <div class="mt-6 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-300">Quick Access</div>
@@ -142,7 +168,7 @@
                         <div
                             class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-500 font-semibold text-white"
                         >
-                            {{ $page.props.auth.user.name.charAt(0).toUpperCase() }}
+                            {{ $page.props.auth.user ? $page.props.auth.user.name.charAt(0).toUpperCase() : '?' }}
                         </div>
                         <div class="ml-3">
                             <p class="text-sm font-medium text-white">{{ $page.props.auth.user.name }}</p>
@@ -330,13 +356,18 @@
 </template>
 
 <script setup lang="ts">
-import { Link, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
+const page = usePage();
+const notiCount = computed(() => {
+    return page.props.notificationCount || 0;
+});
 
 const props = defineProps<{
     pageTitle?: string;
     pageDescription?: string;
     pendingEnrollmentsCount?: number;
+    notificationCount?: number;
 }>();
 
 const mobileSidebarOpen = ref(false);

@@ -10,9 +10,12 @@ use Inertia\Inertia;
 
 class CourseController extends Controller
 {
-    public function index(Request $request)
+
+    public function publicIndex(Request $request)
     {
-        $query = Course::with('category.parent');
+        $query = Course::with('category.parent')->withCount(['enrollments' => function ($query) {
+            $query->where('status', 'verified'); // Only count verified enrollments
+        }]);
 
         if ($request->has('category')) {
             $category = Category::find($request->category);
@@ -44,7 +47,7 @@ class CourseController extends Controller
     }
 
     // app/Http/Controllers/CourseController.php
-    public function show(Course $course)
+    public function publicShow(Course $course)
     {
         $course->load(['category.parent', 'videos']); // Load videos with the course
 

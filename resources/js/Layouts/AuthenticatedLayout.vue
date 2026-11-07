@@ -1,8 +1,8 @@
 <!-- resources/js/Layouts/AuthenticatedLayout.vue -->
 <template>
-    <div class="min-h-screen bg-gray-50">
+    <div class="flex min-h-screen flex-col bg-gradient-to-br from-gray-50 to-gray-100">
         <!-- Fixed Navigation -->
-        <nav class="fixed left-0 right-0 top-0 z-50 border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur-sm">
+        <nav class="fixed left-0 right-0 top-0 z-50 border-b border-gray-200/80 bg-white/95 shadow-xl backdrop-blur-md">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex h-16 justify-between">
                     <!-- Left side: Logo and Desktop Navigation -->
@@ -10,22 +10,64 @@
                         <!-- Logo -->
                         <div class="flex shrink-0 items-center">
                             <Link
-                                :href="route('dashboard')"
-                                class="flex items-center rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                :href="route('landing.Index')"
+                                class="flex items-center rounded-lg transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                             >
-                                <ApplicationLogo class="h-8 w-auto fill-current text-gray-800 transition-transform hover:scale-105" />
+                                <ApplicationLogo class="h-8 w-auto fill-current text-gray-800" />
+                                <span
+                                    class="ml-2 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-xl font-bold text-transparent"
+                                >
+                                    IT Institute
+                                </span>
                             </Link>
                         </div>
 
                         <!-- Desktop Navigation Links -->
-                        <div class="hidden sm:ml-10 sm:flex sm:space-x-4">
+                        <div class="hidden sm:ml-8 sm:flex sm:space-x-1">
+                            <!-- Home Link -->
                             <NavLink
-                                :href="route('dashboard')"
-                                :active="route().current('dashboard')"
-                                class="rounded-lg px-4 py-2 transition-all duration-200 hover:bg-blue-50 hover:text-blue-700"
+                                :href="route('landing.Index')"
+                                :active="route().current('landing.Index')"
+                                class="relative rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 hover:scale-105 hover:bg-blue-50 hover:text-blue-700 hover:shadow-md"
+                                :class="route().current('landing.Index') ? 'bg-blue-50 text-blue-600 shadow-md' : ''"
                             >
                                 <span class="flex items-center">
-                                    <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg
+                                        class="mr-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-12"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                                        />
+                                    </svg>
+                                    Home
+                                </span>
+                                <span
+                                    v-if="route().current('landing.Index')"
+                                    class="absolute bottom-0 left-0 right-0 mx-auto h-0.5 w-6 animate-pulse rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"
+                                ></span>
+                            </NavLink>
+
+                            <!-- Dashboard Link (Only when logged in) -->
+                            <NavLink
+                                v-if="$page.props.auth.user"
+                                :href="route('dashboard')"
+                                :active="route().current('dashboard')"
+                                class="relative rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 hover:scale-105 hover:bg-blue-50 hover:text-blue-700 hover:shadow-md"
+                                :class="route().current('dashboard') ? 'bg-blue-50 text-blue-600 shadow-md' : ''"
+                            >
+                                <span class="flex items-center">
+                                    <svg
+                                        class="mr-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-12"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -35,14 +77,26 @@
                                     </svg>
                                     Dashboard
                                 </span>
+                                <span
+                                    v-if="route().current('dashboard')"
+                                    class="absolute bottom-0 left-0 right-0 mx-auto h-0.5 w-6 animate-pulse rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"
+                                ></span>
                             </NavLink>
+
+                            <!-- Courses Link -->
                             <NavLink
-                                :href="route('courses.index')"
-                                :active="route().current('courses.index')"
-                                class="rounded-lg px-4 py-2 transition-all duration-200 hover:bg-blue-50 hover:text-blue-700"
+                                :href="route('courses.public.index')"
+                                :active="route().current('courses.public.*')"
+                                class="relative rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 hover:scale-105 hover:bg-blue-50 hover:text-blue-700 hover:shadow-md"
+                                :class="route().current('courses.public.*') ? 'bg-blue-50 text-blue-600 shadow-md' : ''"
                             >
                                 <span class="flex items-center">
-                                    <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg
+                                        class="mr-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-12"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -52,14 +106,27 @@
                                     </svg>
                                     Courses
                                 </span>
+                                <span
+                                    v-if="route().current('courses.public.*')"
+                                    class="absolute bottom-0 left-0 right-0 mx-auto h-0.5 w-6 animate-pulse rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"
+                                ></span>
                             </NavLink>
+
+                            <!-- My Courses Link (Only when logged in) -->
                             <NavLink
+                                v-if="$page.props.auth.user"
                                 :href="route('my-courses')"
                                 :active="route().current('my-courses')"
-                                class="rounded-lg px-4 py-2 transition-all duration-200 hover:bg-blue-50 hover:text-blue-700"
+                                class="relative rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 hover:scale-105 hover:bg-blue-50 hover:text-blue-700 hover:shadow-md"
+                                :class="route().current('my-courses') ? 'bg-blue-50 text-blue-600 shadow-md' : ''"
                             >
                                 <span class="flex items-center">
-                                    <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg
+                                        class="mr-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-12"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -69,30 +136,68 @@
                                     </svg>
                                     My Courses
                                 </span>
+                                <span
+                                    v-if="route().current('my-courses')"
+                                    class="absolute bottom-0 left-0 right-0 mx-auto h-0.5 w-6 animate-pulse rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"
+                                ></span>
                             </NavLink>
 
-                            <!-- Admin Panel Link -->
+                            <!-- About Link -->
                             <NavLink
-                                v-if="$page.props.auth.user?.role === 'admin'"
-                                :href="route('admin.dashboard')"
-                                :active="route().current('admin.*')"
-                                class="rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 px-4 py-2 text-white shadow-lg transition-all duration-200 hover:from-purple-700 hover:to-blue-700 hover:shadow-xl"
+                                :href="route('Landing.About')"
+                                :active="route().current('Landing.About')"
+                                class="relative rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 hover:scale-105 hover:bg-blue-50 hover:text-blue-700 hover:shadow-md"
+                                :class="route().current('Landing.About') ? 'bg-blue-50 text-blue-600 shadow-md' : ''"
                             >
-                                <span class="flex items-center font-medium">
-                                    <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <span class="flex items-center">
+                                    <svg
+                                        class="mr-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-12"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
                                             stroke-width="2"
-                                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                         />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
-                                    Admin Panel
-                                    <span v-if="$page.props.auth.user?.role === 'admin'" class="ml-2 rounded-full bg-white/20 px-2 py-0.5 text-xs">
-                                        Admin
-                                    </span>
+                                    About
                                 </span>
+                                <span
+                                    v-if="route().current('Landing.About')"
+                                    class="absolute bottom-0 left-0 right-0 mx-auto h-0.5 w-6 animate-pulse rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"
+                                ></span>
+                            </NavLink>
+
+                            <!-- Contact Link -->
+                            <NavLink
+                                :href="route('Landing.Contact')"
+                                :active="route().current('Landing.Contact')"
+                                class="relative rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-300 hover:scale-105 hover:bg-blue-50 hover:text-blue-700 hover:shadow-md"
+                                :class="route().current('Landing.Contact') ? 'bg-blue-50 text-blue-600 shadow-md' : ''"
+                            >
+                                <span class="flex items-center">
+                                    <svg
+                                        class="mr-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-12"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                        />
+                                    </svg>
+                                    Contact
+                                </span>
+                                <span
+                                    v-if="route().current('Landing.Contact')"
+                                    class="absolute bottom-0 left-0 right-0 mx-auto h-0.5 w-6 animate-pulse rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"
+                                ></span>
                             </NavLink>
                         </div>
                     </div>
@@ -100,10 +205,10 @@
                     <!-- Right side: Desktop User Menu -->
                     <div class="hidden sm:ml-6 sm:flex sm:items-center">
                         <!-- Admin Badge -->
-                        <div v-if="$page.props.auth.user?.role === 'admin'" class="mr-4">
-                            <div class="rounded-full bg-gradient-to-r from-purple-100 to-blue-100 px-3 py-1">
-                                <span class="flex items-center text-sm font-medium text-purple-700">
-                                    <svg class="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div v-if="$page.props.auth.user?.role === 'admin'" class="mr-3 animate-pulse">
+                            <div class="rounded-full bg-gradient-to-r from-purple-100 to-blue-100 px-3 py-1 shadow-md">
+                                <span class="flex items-center text-xs font-medium text-purple-700">
+                                    <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
@@ -111,116 +216,117 @@
                                             d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                                         />
                                     </svg>
-                                    Administrator
+                                    Admin
                                 </span>
                             </div>
                         </div>
 
                         <!-- User Dropdown -->
-                        <div class="relative">
-                            <Dropdown align="right" width="48">
-                                <template #trigger>
-                                    <button
-                                        class="group flex items-center space-x-3 rounded-full p-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                                        aria-label="User menu"
+                        <div v-if="$page.props.auth.user" class="relative" ref="dropdownContainer">
+                            <button
+                                @click.stop="toggleDropdown"
+                                class="group flex items-center space-x-2 rounded-full p-1.5 transition-all duration-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                aria-label="User menu"
+                            >
+                                <!-- Profile Picture -->
+                                <div class="relative">
+                                    <img
+                                        v-if="getProfilePictureUrl($page.props.auth.user)"
+                                        :src="getProfilePictureUrl($page.props.auth.user)"
+                                        alt="Profile"
+                                        class="h-8 w-8 rounded-full object-cover shadow-md ring-2 ring-white transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
+                                    />
+                                    <div
+                                        v-else
+                                        class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-sm font-semibold text-white shadow-md transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
                                     >
-                                        <div
-                                            class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 font-semibold text-white transition-transform group-hover:scale-105"
-                                        >
-                                            {{ $page.props.auth.user.name.charAt(0).toUpperCase() }}
-                                        </div>
-                                        <div class="hidden text-left md:block">
-                                            <p class="text-sm font-medium text-gray-900">{{ $page.props.auth.user.name }}</p>
-                                            <p class="text-xs text-gray-500">{{ $page.props.auth.user.email }}</p>
-                                        </div>
-                                        <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                fill-rule="evenodd"
-                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                clip-rule="evenodd"
-                                            />
-                                        </svg>
-                                    </button>
-                                </template>
+                                        {{ $page.props.auth.user.name.charAt(0).toUpperCase() }}
+                                    </div>
+                                </div>
+                                <div class="hidden text-left md:block">
+                                    <p class="text-sm font-medium text-gray-700">{{ $page.props.auth.user.name }}</p>
+                                    <p class="text-xs text-gray-400">{{ $page.props.auth.user.email }}</p>
+                                </div>
+                                <svg
+                                    class="h-4 w-4 text-gray-400 transition-all duration-300 group-hover:text-gray-600"
+                                    :class="{ 'rotate-180': isDropdownOpen }"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"
+                                    />
+                                </svg>
+                            </button>
 
-                                <template #content>
-                                    <!-- User Info -->
+                            <!-- Update only the Dropdown Menu section -->
+                            <!-- Replace the existing dropdown menu with this refined version -->
+
+                            <!-- Dropdown Menu -->
+                            <Transition
+                                enter-active-class="transition duration-200 ease-out"
+                                enter-from-class="transform scale-95 opacity-0 translate-y-2"
+                                enter-to-class="transform scale-100 opacity-100 translate-y-0"
+                                leave-active-class="transition duration-150 ease-in"
+                                leave-from-class="transform scale-100 opacity-100 translate-y-0"
+                                leave-to-class="transform scale-95 opacity-0 translate-y-2"
+                            >
+                                <div
+                                    v-if="isDropdownOpen"
+                                    class="absolute right-0 mt-2 w-80 origin-top-right rounded-2xl bg-white py-2 shadow-2xl ring-1 ring-black/5"
+                                >
+                                    <!-- User Info with Profile Picture -->
                                     <div class="border-b border-gray-100 px-4 py-3">
-                                        <p class="text-sm font-medium text-gray-900">{{ $page.props.auth.user.name }}</p>
-                                        <p class="truncate text-xs text-gray-500">{{ $page.props.auth.user.email }}</p>
-                                        <div v-if="$page.props.auth.user?.role === 'admin'" class="mt-1">
-                                            <span
-                                                class="inline-flex items-center rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-700"
+                                        <div class="flex items-center">
+                                            <img
+                                                v-if="getProfilePictureUrl($page.props.auth.user)"
+                                                :src="getProfilePictureUrl($page.props.auth.user)"
+                                                alt="Profile"
+                                                class="h-12 w-12 rounded-full object-cover ring-2 ring-blue-500/20"
+                                            />
+                                            <div
+                                                v-else
+                                                class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-lg font-semibold text-white shadow-lg"
                                             >
-                                                <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                                                    />
-                                                </svg>
-                                                Administrator
-                                            </span>
+                                                {{ $page.props.auth.user.name.charAt(0).toUpperCase() }}
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-semibold text-gray-900">{{ $page.props.auth.user.name }}</p>
+                                                <p class="truncate text-xs text-gray-500">{{ $page.props.auth.user.email }}</p>
+                                                <div v-if="$page.props.auth.user?.role === 'admin'" class="mt-1">
+                                                    <span
+                                                        class="inline-flex items-center rounded-full bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-700"
+                                                    >
+                                                        <svg class="mr-1 h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                                                            />
+                                                        </svg>
+                                                        Administrator
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <!-- Quick Admin Access -->
-                                    <div v-if="$page.props.auth.user?.role === 'admin'" class="border-b border-gray-100 px-4 py-2">
-                                        <p class="mb-2 text-xs font-medium uppercase tracking-wider text-gray-500">Quick Admin</p>
-                                        <div class="space-y-1">
-                                            <DropdownLink
-                                                :href="route('admin.dashboard')"
-                                                class="flex items-center rounded-lg px-3 py-2 text-sm text-purple-700 hover:bg-purple-50"
-                                            >
-                                                <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                                                    />
-                                                </svg>
-                                                Dashboard
-                                            </DropdownLink>
-                                            <DropdownLink
-                                                :href="route('admin.courses.index')"
-                                                class="flex items-center rounded-lg px-3 py-2 text-sm text-purple-700 hover:bg-purple-50"
-                                            >
-                                                <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                                                    />
-                                                </svg>
-                                                Manage Courses
-                                            </DropdownLink>
-                                            <DropdownLink
-                                                :href="route('admin.enrollments.index')"
-                                                class="flex items-center rounded-lg px-3 py-2 text-sm text-purple-700 hover:bg-purple-50"
-                                            >
-                                                <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5 2.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
-                                                    />
-                                                </svg>
-                                                View Enrollments
-                                            </DropdownLink>
-                                        </div>
-                                    </div>
-
-                                    <!-- Account Management -->
-                                    <div class="py-1">
-                                        <DropdownLink
+                                    <!-- My Account & Admin Panel - Two main buttons (Elegant & Subtle) -->
+                                    <div class="border-b border-gray-100 px-3 py-3">
+                                        <!-- My Account Button - Subtle hover effect -->
+                                        <Link
                                             :href="route('profile.edit')"
-                                            class="flex items-center rounded-lg px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                            class="group flex items-center rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600"
                                         >
-                                            <svg class="mr-3 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg
+                                                class="mr-3 h-4 w-4 text-gray-400 transition-colors group-hover:text-blue-500"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
                                                 <path
                                                     stroke-linecap="round"
                                                     stroke-linejoin="round"
@@ -228,16 +334,68 @@
                                                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                                                 />
                                             </svg>
-                                            Profile Settings
+                                            <span>My Account</span>
+                                            <span
+                                                class="ml-auto rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500 transition-colors group-hover:bg-blue-100 group-hover:text-blue-600"
+                                                >Profile</span
+                                            >
+                                        </Link>
+
+                                        <!-- Admin Panel Button - Subtle hover effect (Only for admins) -->
+                                        <Link
+                                            v-if="$page.props.auth.user?.role === 'admin'"
+                                            :href="route('admin.dashboard')"
+                                            class="group mt-2 flex items-center rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-all duration-200 hover:border-purple-300 hover:bg-purple-50 hover:text-purple-600"
+                                        >
+                                            <svg
+                                                class="mr-3 h-4 w-4 text-gray-400 transition-colors group-hover:text-purple-500"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                                                />
+                                            </svg>
+                                            <span>Admin Panel</span>
+                                            <span
+                                                class="ml-auto rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-500 transition-colors group-hover:bg-purple-100 group-hover:text-purple-600"
+                                                >Admin</span
+                                            >
+                                        </Link>
+                                    </div>
+
+                                    <!-- Quick Links -->
+                                    <div class="px-3 py-2">
+                                        <div class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-gray-400">Quick Links</div>
+
+                                        <!-- My Courses -->
+                                        <DropdownLink
+                                            :href="route('my-courses')"
+                                            class="flex items-center rounded-xl px-3 py-2 text-sm text-gray-700 transition-all duration-200 hover:bg-gray-50 hover:pl-4"
+                                        >
+                                            <svg class="mr-3 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                                                />
+                                            </svg>
+                                            My Courses
+                                            <span class="ml-auto text-xs text-gray-400">📚</span>
                                         </DropdownLink>
                                     </div>
 
                                     <!-- Logout -->
-                                    <div class="border-t border-gray-100 py-1">
+                                    <div class="border-t border-gray-100 px-3 py-2">
                                         <form @submit.prevent="logout">
                                             <button
                                                 type="submit"
-                                                class="flex w-full items-center rounded-lg px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                                                class="flex w-full items-center rounded-xl px-3 py-2 text-sm text-red-600 transition-all duration-200 hover:bg-red-50 hover:pl-4"
                                             >
                                                 <svg class="mr-3 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path
@@ -251,8 +409,18 @@
                                             </button>
                                         </form>
                                     </div>
-                                </template>
-                            </Dropdown>
+                                </div>
+                            </Transition>
+                        </div>
+
+                        <!-- Guest Display - Simple and Clean -->
+                        <div v-else class="flex items-center space-x-3">
+                            <div
+                                class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-gray-400 to-gray-500 text-sm font-semibold text-white shadow-md"
+                            >
+                                G
+                            </div>
+                            <span class="text-sm font-medium text-gray-700">Guest</span>
                         </div>
                     </div>
 
@@ -260,7 +428,7 @@
                     <div class="flex items-center sm:hidden">
                         <button
                             @click="showingNavigationDropdown = !showingNavigationDropdown"
-                            class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            class="rounded-lg p-2 text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <svg
                                 class="h-6 w-6"
@@ -299,11 +467,29 @@
                     class="fixed inset-x-0 top-16 border-t border-gray-200 bg-white/95 shadow-lg backdrop-blur-sm sm:hidden"
                 >
                     <div class="space-y-1 px-4 pb-3 pt-2">
-                        <div class="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500">Navigation</div>
+                        <div class="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-gray-400">Navigation</div>
+
                         <ResponsiveNavLink
+                            :href="route('landing.Index')"
+                            :active="route().current('landing.Index')"
+                            class="flex items-center rounded-lg px-3 py-2 transition-all duration-300 hover:bg-blue-50 hover:pl-4"
+                        >
+                            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                                />
+                            </svg>
+                            Home
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user"
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
-                            class="flex items-center rounded-lg px-3 py-2"
+                            class="flex items-center rounded-lg px-3 py-2 transition-all duration-300 hover:bg-blue-50 hover:pl-4"
                         >
                             <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -315,10 +501,11 @@
                             </svg>
                             Dashboard
                         </ResponsiveNavLink>
+
                         <ResponsiveNavLink
-                            :href="route('courses.index')"
-                            :active="route().current('courses.index')"
-                            class="flex items-center rounded-lg px-3 py-2"
+                            :href="route('courses.public.index')"
+                            :active="route().current('courses.public.*')"
+                            class="flex items-center rounded-lg px-3 py-2 transition-all duration-300 hover:bg-blue-50 hover:pl-4"
                         >
                             <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -330,10 +517,12 @@
                             </svg>
                             Courses
                         </ResponsiveNavLink>
+
                         <ResponsiveNavLink
+                            v-if="$page.props.auth.user"
                             :href="route('my-courses')"
                             :active="route().current('my-courses')"
-                            class="flex items-center rounded-lg px-3 py-2"
+                            class="flex items-center rounded-lg px-3 py-2 transition-all duration-300 hover:bg-blue-50 hover:pl-4"
                         >
                             <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -346,12 +535,44 @@
                             My Courses
                         </ResponsiveNavLink>
 
+                        <ResponsiveNavLink
+                            :href="route('Landing.About')"
+                            :active="route().current('Landing.About')"
+                            class="flex items-center rounded-lg px-3 py-2 transition-all duration-300 hover:bg-blue-50 hover:pl-4"
+                        >
+                            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                            </svg>
+                            About
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink
+                            :href="route('Landing.Contact')"
+                            :active="route().current('Landing.Contact')"
+                            class="flex items-center rounded-lg px-3 py-2 transition-all duration-300 hover:bg-blue-50 hover:pl-4"
+                        >
+                            <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                />
+                            </svg>
+                            Contact
+                        </ResponsiveNavLink>
+
                         <!-- Admin Panel for Mobile -->
                         <ResponsiveNavLink
                             v-if="$page.props.auth.user?.role === 'admin'"
                             :href="route('admin.dashboard')"
                             :active="route().current('admin.*')"
-                            class="flex items-center rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 px-3 py-2 text-white"
+                            class="flex items-center rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 px-3 py-2 text-white transition-all duration-300 hover:scale-105"
                         >
                             <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path
@@ -368,9 +589,16 @@
                     </div>
 
                     <!-- Mobile User Info -->
-                    <div class="border-t border-gray-200 bg-gray-50 px-4 py-4">
+                    <div v-if="$page.props.auth.user" class="border-t border-gray-200 bg-gray-50 px-4 py-4">
                         <div class="flex items-center">
+                            <img
+                                v-if="getProfilePictureUrl($page.props.auth.user)"
+                                :src="getProfilePictureUrl($page.props.auth.user)"
+                                alt="Profile"
+                                class="h-10 w-10 rounded-full object-cover ring-2 ring-blue-500/20"
+                            />
                             <div
+                                v-else
                                 class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 font-semibold text-white"
                             >
                                 {{ $page.props.auth.user.name.charAt(0).toUpperCase() }}
@@ -398,7 +626,7 @@
                             <ResponsiveNavLink
                                 :href="route('profile.edit')"
                                 :active="route().current('profile.edit')"
-                                class="flex items-center rounded-lg px-3 py-2"
+                                class="flex items-center rounded-lg px-3 py-2 transition-all duration-300 hover:bg-gray-100 hover:pl-4"
                             >
                                 <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
@@ -408,12 +636,12 @@
                                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                                     />
                                 </svg>
-                                Profile Settings
+                                My Account
                             </ResponsiveNavLink>
 
                             <button
                                 @click="logout"
-                                class="flex w-full items-center rounded-lg px-3 py-2 text-left text-sm font-medium text-red-600 hover:bg-red-50"
+                                class="flex w-full items-center rounded-lg px-3 py-2 text-left text-sm font-medium text-red-600 transition-all duration-300 hover:bg-red-50 hover:pl-4"
                             >
                                 <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
@@ -427,14 +655,48 @@
                             </button>
                         </div>
                     </div>
+
+                    <!-- Guest Mobile Info -->
+                    <div v-else class="border-t border-gray-200 bg-gray-50 px-4 py-4">
+                        <div class="flex flex-col space-y-2">
+                            <ResponsiveNavLink
+                                :href="route('login')"
+                                class="flex items-center rounded-lg px-3 py-2 text-indigo-600 transition-all duration-300 hover:bg-indigo-50 hover:pl-4"
+                            >
+                                <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                                    />
+                                </svg>
+                                Login
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('register')"
+                                class="flex items-center rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 px-3 py-2 text-white transition-all duration-300 hover:scale-105"
+                            >
+                                <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                                    />
+                                </svg>
+                                Register
+                            </ResponsiveNavLink>
+                        </div>
+                    </div>
                 </div>
             </Transition>
         </nav>
 
-        <!-- Add padding to main content to account for fixed navbar -->
-        <div class="pt-16">
+        <!-- Main Content -->
+        <div class="flex-1 pt-16">
             <!-- Page Header -->
-            <header v-if="$slots.header" class="bg-white shadow-sm">
+            <header v-if="$slots.header" class="bg-white/80 shadow-sm backdrop-blur-sm">
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
@@ -446,61 +708,23 @@
                     <slot />
                 </div>
             </main>
-
-            <!-- Flash Messages -->
-            <div v-if="$page.props.flash && ($page.props.flash.success || $page.props.flash.error)" class="fixed bottom-4 right-4 z-50">
-                <Transition
-                    enter-active-class="transform ease-out duration-300 transition"
-                    enter-from-class="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-                    enter-to-class="translate-y-0 opacity-100 sm:translate-x-0"
-                    leave-active-class="transition ease-in duration-100"
-                    leave-from-class="opacity-100"
-                    leave-to-class="opacity-0"
-                >
-                    <div
-                        v-if="$page.props.flash.success"
-                        class="mb-2 flex max-w-sm items-center rounded-lg bg-green-500 px-4 py-3 text-white shadow-lg"
-                    >
-                        <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        <span class="text-sm font-medium">{{ $page.props.flash.success }}</span>
-                    </div>
-                    <div
-                        v-else-if="$page.props.flash.error"
-                        class="mb-2 flex max-w-sm items-center rounded-lg bg-red-500 px-4 py-3 text-white shadow-lg"
-                    >
-                        <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                        </svg>
-                        <span class="text-sm font-medium">{{ $page.props.flash.error }}</span>
-                    </div>
-                </Transition>
-            </div>
         </div>
-        <!-- Add this right before the closing </div> tag of the main container -->
-        <!-- Just above the Flash Messages section -->
 
         <!-- Footer -->
-        <footer class="mt-auto border-t border-gray-200 bg-black">
-            <div class="text:white mx-auto max-w-7xl px-6 py-3 sm:px-5 lg:px-8">
+        <footer class="mt-auto border-t border-gray-800 bg-black">
+            <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
                     <!-- Brand Column -->
                     <div class="lg:col-span-1">
                         <Link :href="route('dashboard')" class="flex items-center">
-                            <ApplicationLogo class="h-8 w-auto fill-current text-gray-800" />
-                            <span class="ml-3 text-xl font-bold text-gray-900">IT Institute</span>
+                            <ApplicationLogo class="h-8 w-auto fill-current text-white" />
+                            <span class="ml-3 text-xl font-bold text-white">IT Institute</span>
                         </Link>
-                        <p class="mt-4 text-sm text-gray-600">
+                        <p class="mt-4 text-sm leading-relaxed text-gray-400">
                             Empowering the next generation of IT professionals through quality education and hands-on training.
                         </p>
                         <div class="mt-6 flex space-x-4">
-                            <a href="#" class="text-gray-400 hover:text-blue-600">
+                            <a href="#" class="text-gray-500 transition-all duration-300 hover:scale-110 hover:text-blue-400">
                                 <span class="sr-only">Facebook</span>
                                 <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path
@@ -510,7 +734,7 @@
                                     />
                                 </svg>
                             </a>
-                            <a href="#" class="text-gray-400 hover:text-blue-400">
+                            <a href="#" class="text-gray-500 transition-all duration-300 hover:scale-110 hover:text-blue-400">
                                 <span class="sr-only">Twitter</span>
                                 <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path
@@ -518,7 +742,7 @@
                                     />
                                 </svg>
                             </a>
-                            <a href="#" class="text-gray-400 hover:text-pink-600">
+                            <a href="#" class="text-gray-500 transition-all duration-300 hover:scale-110 hover:text-pink-400">
                                 <span class="sr-only">Instagram</span>
                                 <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path
@@ -528,7 +752,7 @@
                                     />
                                 </svg>
                             </a>
-                            <a href="#" class="text-gray-400 hover:text-blue-700">
+                            <a href="#" class="text-gray-500 transition-all duration-300 hover:scale-110 hover:text-blue-400">
                                 <span class="sr-only">LinkedIn</span>
                                 <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path
@@ -543,54 +767,81 @@
 
                     <!-- Quick Links -->
                     <div>
-                        <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-900">Quick Links</h3>
+                        <h3 class="text-sm font-semibold uppercase tracking-wider text-white">Quick Links</h3>
                         <ul class="mt-4 space-y-3">
                             <li>
-                                <Link :href="route('dashboard')" class="text-sm text-gray-600 hover:text-blue-600">Dashboard</Link>
+                                <Link :href="route('dashboard')" class="text-sm text-gray-400 transition-all duration-300 hover:pl-2 hover:text-white"
+                                    >Dashboard</Link
+                                >
                             </li>
                             <li>
-                                <Link :href="route('courses.index')" class="text-sm text-gray-600 hover:text-blue-600">All Courses</Link>
+                                <Link
+                                    :href="route('courses.public.index')"
+                                    class="text-sm text-gray-400 transition-all duration-300 hover:pl-2 hover:text-white"
+                                    >All Courses</Link
+                                >
                             </li>
                             <li>
-                                <Link :href="route('my-courses')" class="text-sm text-gray-600 hover:text-blue-600">My Courses</Link>
+                                <Link
+                                    :href="route('my-courses')"
+                                    class="text-sm text-gray-400 transition-all duration-300 hover:pl-2 hover:text-white"
+                                    >My Courses</Link
+                                >
                             </li>
                             <li>
-                                <a href="#" class="text-sm text-gray-600 hover:text-blue-600">Instructors</a>
+                                <Link
+                                    :href="route('landing.Index')"
+                                    class="text-sm text-gray-400 transition-all duration-300 hover:pl-2 hover:text-white"
+                                    >Home</Link
+                                >
                             </li>
                             <li>
-                                <a href="#" class="text-sm text-gray-600 hover:text-blue-600">Career Guidance</a>
+                                <Link
+                                    :href="route('Landing.About')"
+                                    class="text-sm text-gray-400 transition-all duration-300 hover:pl-2 hover:text-white"
+                                    >About</Link
+                                >
+                            </li>
+                            <li>
+                                <Link
+                                    :href="route('Landing.Contact')"
+                                    class="text-sm text-gray-400 transition-all duration-300 hover:pl-2 hover:text-white"
+                                    >Contact</Link
+                                >
                             </li>
                         </ul>
                     </div>
 
                     <!-- Categories -->
                     <div>
-                        <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-900">Top Categories</h3>
+                        <h3 class="text-sm font-semibold uppercase tracking-wider text-white">Top Categories</h3>
                         <ul class="mt-4 space-y-3">
                             <li>
-                                <a href="#" class="text-sm text-gray-600 hover:text-blue-600">Web Development</a>
+                                <a href="#" class="text-sm text-gray-400 transition-all duration-300 hover:pl-2 hover:text-white">Web Development</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm text-gray-600 hover:text-blue-600">Data Science</a>
+                                <a href="#" class="text-sm text-gray-400 transition-all duration-300 hover:pl-2 hover:text-white">Data Science</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm text-gray-600 hover:text-blue-600">Cybersecurity</a>
+                                <a href="#" class="text-sm text-gray-400 transition-all duration-300 hover:pl-2 hover:text-white">Cybersecurity</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm text-gray-600 hover:text-blue-600">Cloud Computing</a>
+                                <a href="#" class="text-sm text-gray-400 transition-all duration-300 hover:pl-2 hover:text-white">Cloud Computing</a>
                             </li>
                             <li>
-                                <a href="#" class="text-sm text-gray-600 hover:text-blue-600">Mobile Development</a>
+                                <a href="#" class="text-sm text-gray-400 transition-all duration-300 hover:pl-2 hover:text-white"
+                                    >Mobile Development</a
+                                >
                             </li>
                         </ul>
                     </div>
 
                     <!-- Contact Info -->
                     <div>
-                        <h3 class="text-sm font-semibold uppercase tracking-wider text-gray-900">Contact Us</h3>
+                        <h3 class="text-sm font-semibold uppercase tracking-wider text-white">Contact Us</h3>
                         <ul class="mt-4 space-y-3">
-                            <li class="flex items-start text-sm text-gray-600">
-                                <svg class="mr-3 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <li class="flex items-start text-sm text-gray-400">
+                                <svg class="mr-3 h-5 w-5 flex-shrink-0 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
@@ -599,10 +850,10 @@
                                     />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
-                                <span>123 Tech Street, Digital City<br />Dhaka 1207, Bangladesh</span>
+                                <span>Dishari 36, Hawapara<br />Sylhet 3150, Bangladesh</span>
                             </li>
-                            <li class="flex items-center text-sm text-gray-600">
-                                <svg class="mr-3 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <li class="flex items-center text-sm text-gray-400">
+                                <svg class="mr-3 h-5 w-5 flex-shrink-0 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
@@ -610,10 +861,10 @@
                                         d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                                     />
                                 </svg>
-                                <a href="tel:+8801234567890" class="hover:text-blue-600">+8801312784114</a>
+                                <a href="tel:+8801795547756" class="transition-all duration-300 hover:scale-105 hover:text-white">+8801795547756</a>
                             </li>
-                            <li class="flex items-center text-sm text-gray-600">
-                                <svg class="mr-3 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <li class="flex items-center text-sm text-gray-400">
+                                <svg class="mr-3 h-5 w-5 flex-shrink-0 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
@@ -621,23 +872,25 @@
                                         d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                                     />
                                 </svg>
-                                <a href="mailto:info@itinstitute.com" class="hover:text-blue-600">sultanit@itinstitute.com</a>
+                                <a href="mailto:shoyondeb18246@itinstitute.com" class="transition-all duration-300 hover:scale-105 hover:text-white"
+                                    >shoyondeb18246@itinstitute.com</a
+                                >
                             </li>
                         </ul>
 
                         <!-- Newsletter -->
                         <div class="mt-6">
-                            <h4 class="text-sm font-semibold text-gray-900">Stay Updated</h4>
-                            <p class="mt-2 text-sm text-gray-600">Subscribe to our newsletter for latest courses and updates.</p>
+                            <h4 class="text-sm font-semibold text-white">Stay Updated</h4>
+                            <p class="mt-2 text-sm text-gray-400">Subscribe to our newsletter for latest courses and updates.</p>
                             <form class="mt-3 flex">
                                 <input
                                     type="email"
                                     placeholder="Your email"
-                                    class="flex-1 rounded-l-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none"
+                                    class="flex-1 rounded-l-lg border border-gray-700 bg-gray-800 px-4 py-2 text-sm text-white placeholder-gray-500 transition-all duration-300 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                                 <button
                                     type="submit"
-                                    class="rounded-r-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-medium text-white hover:from-blue-700 hover:to-indigo-700"
+                                    class="rounded-r-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:scale-105 hover:from-blue-700 hover:to-indigo-700"
                                 >
                                     Subscribe
                                 </button>
@@ -647,37 +900,84 @@
                 </div>
 
                 <!-- Bottom Bar -->
-                <div class="mt-8 border-t border-gray-200 pt-8">
+                <div class="mt-8 border-t border-gray-800 pt-8">
                     <div class="flex flex-col items-center justify-between md:flex-row">
                         <p class="text-sm text-gray-500">&copy; {{ new Date().getFullYear() }} IT Institute. All rights reserved.</p>
                         <div class="mt-4 flex space-x-6 text-sm text-gray-500 md:mt-0">
-                            <a href="#" class="hover:text-gray-900">Privacy Policy</a>
-                            <a href="#" class="hover:text-gray-900">Terms of Service</a>
-                            <a href="#" class="hover:text-gray-900">Cookie Policy</a>
-                            <a href="#" class="hover:text-gray-900">Sitemap</a>
+                            <a href="#" class="transition-all duration-300 hover:scale-105 hover:text-white">Privacy Policy</a>
+                            <a href="#" class="transition-all duration-300 hover:scale-105 hover:text-white">Terms of Service</a>
+                            <a href="#" class="transition-all duration-300 hover:scale-105 hover:text-white">Cookie Policy</a>
+                            <a href="#" class="transition-all duration-300 hover:scale-105 hover:text-white">Sitemap</a>
                         </div>
                     </div>
                 </div>
             </div>
         </footer>
-
-        <!-- Flash Messages (keep this at the very bottom) -->
-        <div v-if="$page.props.flash && ($page.props.flash.success || $page.props.flash.error)" class="fixed bottom-4 right-4 z-50">
-            <!-- ... existing flash messages code ... -->
-        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link, router } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 
+const page = usePage();
 const showingNavigationDropdown = ref(false);
+const isDropdownOpen = ref(false);
+const dropdownContainer = ref<HTMLElement | null>(null);
+
+const toggleDropdown = () => {
+    isDropdownOpen.value = !isDropdownOpen.value;
+};
+
+const closeDropdown = () => {
+    isDropdownOpen.value = false;
+};
+
+// Helper function to get profile picture URL
+const getProfilePictureUrl = (user: any) => {
+    if (!user) return null;
+
+    if (user.profile_picture) {
+        if (user.profile_picture.startsWith('http://') || user.profile_picture.startsWith('https://')) {
+            return user.profile_picture;
+        }
+        return `/storage/${user.profile_picture}`;
+    }
+
+    if (user.profile_picture_url) {
+        return user.profile_picture_url;
+    }
+
+    return null;
+};
+
+// Close dropdown when clicking outside
+const handleClickOutside = (event: MouseEvent) => {
+    if (dropdownContainer.value && !dropdownContainer.value.contains(event.target as Node)) {
+        closeDropdown();
+    }
+};
+
+// Close dropdown on escape key
+const handleEscapeKey = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+        closeDropdown();
+    }
+};
+
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleEscapeKey);
+});
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClickOutside);
+    document.removeEventListener('keydown', handleEscapeKey);
+});
 
 const logout = () => {
     router.post(route('logout'));

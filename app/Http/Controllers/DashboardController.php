@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,12 +17,15 @@ class DashboardController extends Controller
 
         $enrolledCourses = auth()->user()->enrolledCourses()
             ->with('category.parent')
+            ->wherePivot('status', 'verified')
             ->latest()
             ->take(5)
             ->get();
+        $totalCourses = Course::count();
 
         return Inertia::render('Dashboard', [
-            'enrolledCourses' => $enrolledCourses
+            'enrolledCourses' => $enrolledCourses,
+            'totalCourses' => $totalCourses
         ]);
     }
 }

@@ -17,12 +17,6 @@ class AdminMiddleware
         // Check if user is admin
         if (auth()->user()->isAdmin()) {
             // If trying to access admin routes, allow it
-            // if ($request->is('admin*')) {
-            return $next($request);
-            // }
-
-            // If trying to access student routes, also allow it (don't redirect)
-            // This allows admins to browse the student side
             return $next($request);
         }
 
@@ -30,7 +24,6 @@ class AdminMiddleware
         if ($request->is('admin*')) {
             return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
         }
-
         return $next($request);
     }
 }

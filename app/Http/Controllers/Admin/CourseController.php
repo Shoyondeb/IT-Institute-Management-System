@@ -13,14 +13,32 @@ use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index(Request $request) // Add Request parameter
     {
-        $courses = Course::with('category')->withVideosCount()->latest()->paginate(10);
+        $query = Course::with('category')
+            ->withCount(['enrollments', 'videos']); // Add withCount for students and videos
+
+        // Search by title or description
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter by category
+        if ($request->has('category') && $request->category) {
+            $query->where('category_id', $request->category);
+        }
+
+        $courses = $query->latest()->paginate(10)->withQueryString();
         $categories = Category::whereNotNull('parent_id')->get();
 
         return Inertia::render('Admin/Courses/Index', [
             'courses' => $courses,
-            'categories' => $categories
+            'categories' => $categories,
+            'filters' => $request->only(['search', 'category'])
         ]);
     }
 
